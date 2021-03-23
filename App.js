@@ -8,7 +8,7 @@ import authReducer from "./store/reducers/auth";
 import productsReducer from "./store/reducers/products";
 import cartReducer from "./store/reducers/cart";
 import ordersReducer from "./store/reducers/orders";
-import AppNavigator from "./navigation/AppNavigator";
+import NavigationContainer from "./navigation/NavigationContainer";
 
 const rootReducer = combineReducers({
   products: productsReducer,
@@ -42,7 +42,7 @@ export default function App() {
   }
   return (
     <Provider store={store}>
-      <AppNavigator />
+      <NavigationContainer />
     </Provider>
   );
 }
