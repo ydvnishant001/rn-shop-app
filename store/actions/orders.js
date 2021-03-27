@@ -8,7 +8,7 @@ export const fetchOrders = () => {
     const userId = getState().auth.userId;
     try {
       const response = await fetch(
-        `https://rn-shop-app-daa48-default-rtdb.firebaseio.com/orders/${userId}.json`
+        ``
       );
 
       if (!response.ok) {
@@ -41,7 +41,7 @@ export const addOrder = (cartItems, totalAmount) => {
     const userId = getState().auth.userId;
     const date = new Date();
     const response = await fetch(
-      `https://rn-shop-app-daa48-default-rtdb.firebaseio.com/orders/${userId}.json?auth=${token}`,
+      ``,
       {
         method: "POST",
         headers: {
@@ -70,5 +70,23 @@ export const addOrder = (cartItems, totalAmount) => {
         date: date,
       },
     });
+
+    for (const cartItem of cartItems) {
+      const pushToken = cartItem.productPushToken;
+
+      fetch("https://exp.host/--/api/v2/push/send", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Accept-Encoding": "gzip, deflate",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: pushToken,
+          title: "Order was placed!",
+          body: cartItem.productTitle,
+        }),
+      });
+    }
   };
 };
